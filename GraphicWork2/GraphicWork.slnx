@@ -1,0 +1,7 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="GraphicWork.vcxproj" Id="baf7022c-563b-4a64-bc3d-e410b0be177f" />
+</Solution>
