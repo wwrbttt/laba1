@@ -101,6 +101,12 @@ void Display() {
     // ��������� ��������
     for (int i = 0; i < charsCount; ++i) {
         if (chars[i].active || chars[i].velocity == 0) {
+            // ��������� ���� ������ ������
+            if (chars[i].active && rand() % 20 == 0) {
+                chars[i].colorR = (float)(rand() % 256) / 255.0f;
+                chars[i].colorG = (float)(rand() % 256) / 255.0f;
+                chars[i].colorB = (float)(rand() % 256) / 255.0f;
+            }
             glColor3f(chars[i].colorR, chars[i].colorG, chars[i].colorB);
             glRasterPos2f(chars[i].x, chars[i].y);
             glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, chars[i].ch);
