@@ -3,6 +3,7 @@
 #include <cmath>
 #include <ctime>
 #include <cstdlib>
+#include <random>
 
 #ifdef _WIN32
 #define WIN32_LEAN_AND_MEAN
@@ -58,6 +59,9 @@ vector<Bubble> bubbles;
 vector<Fish> fishes;
 vector<Seaweed> seaweeds;
 int frameCount = 0;
+
+// ���������� ��������� ����� ������
+std::mt19937 g_gen;
 
 // ��������� ����� ���
 float waterTopR, waterTopG, waterTopB;
@@ -371,8 +375,19 @@ void updateBubbles() {
 
 // ���������� ���
 void updateFishes() {
+    std::uniform_real_distribution<float> distR(0.4f, 1.0f);
+    std::uniform_real_distribution<float> distG(0.2f, 0.8f);
+    std::uniform_real_distribution<float> distB(0.2f, 0.9f);
+
     for (auto& fish : fishes) {
         fish.swimPhase += 0.1f;
+
+        // ����� ����� ������ ~90 ������
+        if (frameCount % 90 == 0) {
+            fish.r = distR(g_gen);
+            fish.g = distG(g_gen);
+            fish.b = distB(g_gen);
+        }
 
         // �������� �� �����������
         if (fish.movingRight) {
@@ -484,17 +499,27 @@ void runAquarium(int argc, char** argv) {
     frameCount = 0;
 
     // ��������� ��������� ����� ����
-    waterTopR = randomFloat(0.1f, 0.5f);
-    waterTopG = randomFloat(0.4f, 0.8f);
-    waterTopB = randomFloat(0.7f, 1.0f);
+    std::random_device rd;
+    g_gen.seed(rd());
+    std::mt19937 gen(rd());
+
+    std::uniform_real_distribution<float> distWaterR(0.1f, 0.5f);
+    std::uniform_real_distribution<float> distWaterG(0.4f, 0.8f);
+    std::uniform_real_distribution<float> distWaterB(0.7f, 1.0f);
+    waterTopR = distWaterR(gen);
+    waterTopG = distWaterG(gen);
+    waterTopB = distWaterB(gen);
     waterBotR = waterTopR * 0.25f;
     waterBotG = waterTopG * 0.25f;
     waterBotB = waterTopB * 0.45f;
 
     // ��������� ��������� ���� �����
-    sandTopR = randomFloat(0.55f, 0.85f);
-    sandTopG = randomFloat(0.50f, 0.80f);
-    sandTopB = randomFloat(0.25f, 0.55f);
+    std::uniform_real_distribution<float> distSandR(0.55f, 0.85f);
+    std::uniform_real_distribution<float> distSandG(0.50f, 0.80f);
+    std::uniform_real_distribution<float> distSandB(0.25f, 0.55f);
+    sandTopR = distSandR(gen);
+    sandTopG = distSandG(gen);
+    sandTopB = distSandB(gen);
     sandBotR = sandTopR * 0.80f;
     sandBotG = sandTopG * 0.80f;
     sandBotB = sandTopB * 0.80f;
