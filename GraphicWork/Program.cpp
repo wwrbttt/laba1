@@ -59,6 +59,12 @@ vector<Fish> fishes;
 vector<Seaweed> seaweeds;
 int frameCount = 0;
 
+// ��������� ����� ���
+float waterTopR, waterTopG, waterTopB;
+float waterBotR, waterBotG, waterBotB;
+float sandTopR, sandTopG, sandTopB;
+float sandBotR, sandBotG, sandBotB;
+
 // ��������� ���������� ����� � ���������
 float randomFloat(float min, float max) {
     return min + static_cast<float>(rand()) / (static_cast<float>(RAND_MAX / (max - min)));
@@ -156,10 +162,10 @@ void drawBackground() {
 
     // ���� � ���������
     glBegin(GL_QUADS);
-    glColor3f(0.2f, 0.6f, 0.9f);
+    glColor3f(waterTopR, waterTopG, waterTopB);
     glVertex2f(AQUARIUM_LEFT, AQUARIUM_TOP);
     glVertex2f(AQUARIUM_RIGHT, AQUARIUM_TOP);
-    glColor3f(0.0f, 0.1f, 0.3f);
+    glColor3f(waterBotR, waterBotG, waterBotB);
     glVertex2f(AQUARIUM_RIGHT, AQUARIUM_BOTTOM);
     glVertex2f(AQUARIUM_LEFT, AQUARIUM_BOTTOM);
     glEnd();
@@ -187,10 +193,10 @@ void drawBackground() {
 void drawSeaFloor() {
     // �����
     glBegin(GL_QUADS);
-    glColor3f(0.76f, 0.7f, 0.5f);
+    glColor3f(sandTopR, sandTopG, sandTopB);
     glVertex2f(AQUARIUM_LEFT, AQUARIUM_BOTTOM + 60);
     glVertex2f(AQUARIUM_RIGHT, AQUARIUM_BOTTOM + 60);
-    glColor3f(0.6f, 0.55f, 0.4f);
+    glColor3f(sandBotR, sandBotG, sandBotB);
     glVertex2f(AQUARIUM_RIGHT, AQUARIUM_BOTTOM);
     glVertex2f(AQUARIUM_LEFT, AQUARIUM_BOTTOM);
     glEnd();
@@ -476,6 +482,22 @@ void runAquarium(int argc, char** argv) {
     fishes.clear();
     seaweeds.clear();
     frameCount = 0;
+
+    // ��������� ��������� ����� ����
+    waterTopR = randomFloat(0.1f, 0.5f);
+    waterTopG = randomFloat(0.4f, 0.8f);
+    waterTopB = randomFloat(0.7f, 1.0f);
+    waterBotR = waterTopR * 0.25f;
+    waterBotG = waterTopG * 0.25f;
+    waterBotB = waterTopB * 0.45f;
+
+    // ��������� ��������� ���� �����
+    sandTopR = randomFloat(0.55f, 0.85f);
+    sandTopG = randomFloat(0.50f, 0.80f);
+    sandTopB = randomFloat(0.25f, 0.55f);
+    sandBotR = sandTopR * 0.80f;
+    sandBotG = sandTopG * 0.80f;
+    sandBotB = sandTopB * 0.80f;
 
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
     glutInitWindowSize(WINDOW_WIDTH, WINDOW_HEIGHT);
